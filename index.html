@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Учет Финансов</title>
+    <link rel="stylesheet" href="src/styles/reset.css">
+    <link rel="stylesheet" href="src/styles/main.css">
+    </head>
+<body>
+    <div id="app">
+        <main class="main-screen">
+            <h1 class="month-title" id="month-title"></h1>
+
+            <section class="chart-container">
+                <h2>Расходы по категориям</h2>
+                <div class="chart-area" id="expense-chart">
+                    </div>
+            </section>
+
+            <section class="summary">
+                <div class="summary-item income">
+                    <span class="label">Доходы</span>
+                    <span class="value" id="total-income">0 ₽</span>
+                </div>
+                <div class="summary-item expense">
+                    <span class="label">Расходы</span>
+                    <span class="value" id="total-expense">0 ₽</span>
+                </div>
+                <div class="summary-item balance">
+                    <span class="label">Баланс</span>
+                    <span class="value" id="total-balance">0 ₽</span>
+                </div>
+            </section>
+
+            <div class="action-buttons">
+                <button class="action-button add-income-btn" id="add-income-btn">
+                    + Доход
+                </button>
+                <button class="action-button add-expense-btn" id="add-expense-btn">
+                    - Расход
+                </button>
+            </div>
+
+            <button class="details-button" id="show-transactions-btn">
+                Детали транзакций
+            </button>
+        </main>
+
+        <div id="popups-container">
+            </div>
+    </div>
+
+    <script type="module" src="src/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "personal-finance-app",
+  "version": "1.0.0",
+  "description": "Веб-приложение для учета личных финансов.",
+  "main": "src/app.js",
+  "scripts": {
+    "dev": "http-server .",
+    "install": "echo 'Установка зависимостей завершена. Используйте npm run dev для запуска.'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
