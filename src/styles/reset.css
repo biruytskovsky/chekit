@@ -1,5 +1,13 @@
+/*
+ * reset.css / normalize.css
+ * Обеспечивает единообразный базовый стиль во всех браузерах.
+ * На основе популярных Normalize и Reset.
+ */
+
+/* 1. Сброс блочной модели (Border-box) */
 html {
     box-sizing: border-box;
+    /* Улучшение рендеринга шрифтов */
     -webkit-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -11,6 +19,7 @@ html {
     box-sizing: inherit;
 }
 
+/* 2. Удаление отступов по умолчанию */
 body,
 h1,
 h2,
@@ -29,15 +38,18 @@ ol {
     padding: 0;
 }
 
+/* 3. Установка минимальной высоты и коррекция вертикального выравнивания */
 body {
     min-height: 100vh;
     line-height: 1.5;
 }
 
+/* 4. Сброс списков */
 ul, ol {
     list-style: none;
 }
 
+/* 5. Улучшение работы с медиа-элементами */
 img,
 picture,
 video,
@@ -47,6 +59,7 @@ svg {
     max-width: 100%;
 }
 
+/* 6. Наследование шрифтов для элементов формы */
 input,
 button,
 textarea,
@@ -54,6 +67,7 @@ select {
     font: inherit;
 }
 
+/* 7. Устранение проблем с высотой текста в кнопках и полях */
 button {
     text-transform: none;
     cursor: pointer;
@@ -61,6 +75,7 @@ button {
     border: none;
 }
 
+/* 8. Специально для ссылок */
 a {
     text-decoration: none;
     color: inherit;

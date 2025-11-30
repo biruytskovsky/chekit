@@ -1,6 +1,5 @@
-1. 
-    git clone [<репозиторий>](https://up.bitrix.info/2025/biryukov/finally)
- 
+1. git clone [<репозиторий>](https://up.bitrix.info/2025/biryukov/finally)
+    
 2.  
     npm install
 

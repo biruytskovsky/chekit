@@ -32,7 +32,7 @@ export class Chart {
             visual.className = 'chart__bar-visual'; 
             
             const fill = document.createElement('div');
-            fill.className = 'chart__bar-fill'; /
+            fill.className = 'chart__bar-fill'; 
             fill.style.width = `${item.percent > 100 ? 100 : item.percent}%`; 
 
             visual.appendChild(fill);
