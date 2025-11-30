@@ -1,22 +1,26 @@
-* src/styles/main.css */
-
-/* --- Mobile First: Общие стили и типографика --- */
 :root {
-    --color-primary: #1e88e5; /* Синий */
-    --color-success: #43a047; /* Зеленый */
-    --color-danger: #e53935; /* Красный */
-    --color-background: #f4f4f9;
-    --color-text: #212121;
-    --color-card: #ffffff;
-    --font-family: Arial, sans-serif;
-    --spacing: 16px;
-    --border-radius: 12px;
+    /* Палитра */
+    --color-primary: #5A67D8; /* Насыщенный фиолетово-синий */
+    --color-primary-light: #7F9CF5;
+    --color-success: #48BB78; /* Мягкий зеленый */
+    --color-danger: #F56565; /* Приглушенный красный */
+    --color-background: #F7FAFC; /* Светло-серый фон */
+    --color-card: #FFFFFF; /* Белый для карточек */
+    --color-text-dark: #2D3748; /* Темный текст */
+    --color-text-light: #718096; /* Светлый/второстепенный текст */
+    
+    /* Типографика и геометрия */
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --spacing: 1rem; /* 16px */
+    --border-radius: 0.75rem; /* 12px */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 body {
     font-family: var(--font-family);
     background-color: var(--color-background);
-    color: var(--color-text);
+    color: var(--color-text-dark);
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -24,148 +28,184 @@ body {
 
 #app {
     padding: var(--spacing);
-    max-width: 600px; /* Ограничение ширины для десктопа */
+    max-width: 600px;
     margin: 0 auto;
 }
 
-/* --- Главный Экран (Main Screen) --- */
+/* --- 2. Главный Экран --- */
 
 .month-title {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1.8rem;
+    font-weight: 700;
     text-align: center;
     margin-bottom: var(--spacing);
+    color: var(--color-text-dark);
 }
 
+/* БЛОК: summary (Сводка) */
 .summary {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: var(--spacing);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
 }
 
-.summary-item {
+/* ЭЛЕМЕНТ: summary__item (Карточка сводки) */
+.summary__item {
     background-color: var(--color-card);
-    padding: var(--spacing);
+    padding: 1.25rem;
     border-radius: var(--border-radius);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
+    border-left: 5px solid transparent; 
 }
 
-.summary-item .label {
+/* МОДИФИКАТОРЫ ЭЛЕМЕНТА summary__item */
+.summary__item--income { border-left-color: var(--color-success); }
+.summary__item--expense { border-left-color: var(--color-danger); }
+.summary__item--balance { border-left-color: var(--color-primary); }
+
+
+/* ЭЛЕМЕНТ: summary__label (Подпись) */
+.summary__label {
     font-size: 0.9rem;
-    color: #757575;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-.summary-item .value {
-    font-size: 1.4rem;
-    font-weight: bold;
+/* ЭЛЕМЕНТ: summary__value (Значение) */
+.summary__value {
+    font-size: 1.6rem;
+    font-weight: 700;
 }
 
-.summary-item.income .value { color: var(--color-success); }
-.summary-item.expense .value { color: var(--color-danger); }
-.summary-item.balance .value { color: var(--color-primary); }
+/* Стили значений */
+.summary__item--income .summary__value { color: var(--color-success); }
+.summary__item--expense .summary__value { color: var(--color-danger); }
+.summary__item--balance .summary__value { color: var(--color-text-dark); } 
 
-/* --- Кнопки действий (Увеличенные под палец) --- */
+
+/* --- 3. Кнопки действий (БЭМ action-buttons) --- */
 
 .action-buttons {
     display: flex;
     gap: var(--spacing);
-    margin-bottom: var(--spacing);
+    margin-bottom: 1.5rem;
 }
 
+/* БЛОК: action-button */
 .action-button {
     flex-grow: 1;
-    padding: 20px 10px; /* Увеличенная область нажатия */
+    padding: 1.5rem 1rem;
     border: none;
     border-radius: var(--border-radius);
     font-size: 1.1rem;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s;
+    box-shadow: var(--shadow-md);
 }
 
-.add-income-btn {
+.action-button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* МОДИФИКАТОРЫ action-button */
+.action-button--income {
     background-color: var(--color-success);
-    color: white;
+    color: var(--color-card);
 }
 
-.add-expense-btn {
+.action-button--expense {
     background-color: var(--color-danger);
-    color: white;
+    color: var(--color-card);
 }
 
 .details-button {
     width: 100%;
-    padding: 15px;
-    border: 1px solid var(--color-primary);
+    padding: 1rem;
+    border: 1px solid var(--color-primary-light);
     background-color: transparent;
     color: var(--color-primary);
     border-radius: var(--border-radius);
     font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-/* --- График (Chart) --- */
+.details-button:hover {
+    background-color: rgba(90, 103, 216, 0.05);
+}
+
+/* --- 4. График (БЭМ chart) --- */
 
 .chart-container {
     background-color: var(--color-card);
     padding: var(--spacing);
     border-radius: var(--border-radius);
-    margin-bottom: var(--spacing);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-sm);
 }
 
 .chart-container h2 {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #edf2f7;
+    padding-bottom: 10px;
 }
 
+/* БЛОК: chart */
 .chart-area {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
 }
 
-.chart-bar-wrapper {
+/* ЭЛЕМЕНТЫ chart__... */
+.chart__bar-wrapper {
     display: flex;
     align-items: center;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
-.chart-bar-label {
-    width: 30%; /* Место для названия категории */
+.chart__bar-label {
+    width: 30%; 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 500;
 }
 
-.chart-bar-visual {
+.chart__bar-visual {
     flex-grow: 1;
-    height: 20px;
-    background-color: #e0e0e0;
-    border-radius: 4px;
+    height: 16px; 
+    background-color: #E2E8F0; 
+    border-radius: 8px;
     margin: 0 10px;
     position: relative;
 }
 
-.chart-bar-fill {
+.chart__bar-fill {
     height: 100%;
     background-color: var(--color-danger);
-    border-radius: 4px;
+    border-radius: 8px;
     transition: width 0.5s ease-out;
 }
 
-.chart-bar-percent {
-    width: 10%; /* Место для процента */
+.chart__bar-percent {
+    width: 10%; 
     text-align: right;
-    font-weight: bold;
+    font-weight: 600;
+    color: var(--color-text-dark);
 }
 
-/* --- Модальные окна (Popups) --- */
+/* --- 5. Модальные окна (Popups) --- */
 
 .popup-overlay {
     position: fixed;
@@ -173,59 +213,78 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6); 
     display: flex;
     justify-content: center;
-    align-items: flex-end; /* Mobile: выезжает снизу */
+    align-items: flex-end; 
     z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.popup-overlay.visible {
+    opacity: 1;
 }
 
 .popup-content {
-    background-color: white;
+    background-color: var(--color-card);
     width: 100%;
-    max-height: 80vh;
-    padding: var(--spacing);
+    max-height: 90vh;
+    padding: 1.5rem;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
-    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
-    animation: slide-up 0.3s ease-out;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-out;
 }
 
-@keyframes slide-up {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
+.popup-overlay.visible .popup-content {
+    transform: translateY(0);
 }
 
 .popup-content h2 {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: var(--spacing);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
     text-align: center;
+    color: var(--color-primary);
 }
 
 .popup-form label {
     display: block;
     margin-bottom: 5px;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-text-dark);
 }
 
 .popup-form input,
 .popup-form select,
 .popup-form textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: var(--spacing);
-    border: 1px solid #ccc;
+    border: 1px solid #CBD5E0;
     border-radius: 8px;
     box-sizing: border-box;
     font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.popup-form input:focus,
+.popup-form select:focus,
+.popup-form textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.2);
+    outline: none;
 }
 
 .popup-actions {
     display: flex;
     gap: var(--spacing);
-    margin-top: auto; /* Прижать к низу попапа */
+    margin-top: auto; 
+    padding-top: var(--spacing);
 }
 
 .popup-actions button {
@@ -234,87 +293,102 @@ body {
     border: none;
     border-radius: 8px;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
+    transition: opacity 0.2s;
 }
 
 .popup-actions .save-btn {
     background-color: var(--color-primary);
-    color: white;
+    color: var(--color-card);
 }
 
 .popup-actions .cancel-btn {
-    background-color: #e0e0e0;
-    color: var(--color-text);
+    background-color: #E2E8F0;
+    color: var(--color-text-dark);
 }
 
-
-/* --- Экран Транзакций (Transactions Popup) --- */
+/* --- 6. Экран Транзакций (БЭМ transaction-item) --- */
 
 .transactions-list {
     list-style: none;
     padding: 0;
     margin: 0;
-    overflow-y: auto; /* Прокрутка списка */
+    overflow-y: auto; 
     flex-grow: 1;
 }
 
+/* БЛОК: transaction-item */
 .transaction-item {
-    background-color: var(--color-background);
-    padding: 12px;
-    border-radius: 8px;
+    background-color: var(--color-card);
+    padding: 1rem;
+    border-radius: var(--border-radius);
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: var(--shadow-sm);
     border-left: 5px solid;
 }
 
-.transaction-item.income-type { border-left-color: var(--color-success); }
-.transaction-item.expense-type { border-left-color: var(--color-danger); }
+/* МОДИФИКАТОРЫ БЛОКА transaction-item */
+.transaction-item--income { border-left-color: var(--color-success); }
+.transaction-item--expense { border-left-color: var(--color-danger); }
 
 .transaction-details {
     flex-grow: 1;
+    overflow: hidden;
 }
 
-.transaction-sum {
-    font-weight: bold;
-    font-size: 1.1rem;
-    margin-bottom: 5px;
+/* ЭЛЕМЕНТ: transaction-item__sum */
+.transaction-item__sum {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 4px;
 }
 
-.transaction-sum.income-sum { color: var(--color-success); }
-.transaction-sum.expense-sum { color: var(--color-danger); }
+/* Стили суммы */
+.transaction-item--income .transaction-item__sum { color: var(--color-success); }
+.transaction-item--expense .transaction-item__sum { color: var(--color-danger); }
 
-.transaction-info {
-    font-size: 0.8rem;
-    color: #757575;
+/* ЭЛЕМЕНТ: transaction-item__info */
+.transaction-item__info {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .transaction-delete-btn {
     background: none;
     border: none;
-    color: var(--color-danger);
+    color: var(--color-text-light);
     font-size: 1.2rem;
     cursor: pointer;
-    padding: 8px; /* Увеличенная область нажатия */
+    padding: 8px; 
     margin-left: var(--spacing);
+    transition: color 0.2s;
 }
 
-/* --- Медиазапрос для планшетов/десктопов (Mobile First - адаптация) --- */
+.transaction-delete-btn:hover {
+    color: var(--color-danger);
+}
+
+/* --- 7. Адаптация для десктопов --- */
 @media (min-width: 600px) {
     .popup-overlay {
-        align-items: center; /* На десктопе центрируем */
+        align-items: center; 
     }
 
     .popup-content {
         max-width: 450px;
         border-radius: var(--border-radius);
-        animation: fade-in 0.3s ease-out;
+        transform: translateY(0) scale(0.95);
+        transition: transform 0.3s ease-out, opacity 0.3s;
     }
-
-    @keyframes fade-in {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+    
+    .popup-overlay.visible .popup-content {
+        transform: translateY(0) scale(1);
     }
 }

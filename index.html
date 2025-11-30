@@ -6,7 +6,7 @@
     <title>Учет Финансов</title>
     <link rel="stylesheet" href="src/styles/reset.css">
     <link rel="stylesheet" href="src/styles/main.css">
-    </head>
+</head>
 <body>
     <div id="app">
         <main class="main-screen">
@@ -19,26 +19,26 @@
             </section>
 
             <section class="summary">
-                <div class="summary-item income">
-                    <span class="label">Доходы</span>
-                    <span class="value" id="total-income">0 ₽</span>
+                <div class="summary__item summary__item--income">
+                    <span class="summary__label" id="total-income-label">Доходы</span>
+                    <span class="summary__value" id="total-income">0 ₽</span>
                 </div>
-                <div class="summary-item expense">
-                    <span class="label">Расходы</span>
-                    <span class="value" id="total-expense">0 ₽</span>
+                <div class="summary__item summary__item--expense">
+                    <span class="summary__label" id="total-expense-label">Расходы</span>
+                    <span class="summary__value" id="total-expense">0 ₽</span>
                 </div>
-                <div class="summary-item balance">
-                    <span class="label">Баланс</span>
-                    <span class="value" id="total-balance">0 ₽</span>
+                <div class="summary__item summary__item--balance">
+                    <span class="summary__label" id="total-balance-label">Баланс</span>
+                    <span class="summary__value" id="total-balance">0 ₽</span>
                 </div>
             </section>
 
             <div class="action-buttons">
-                <button class="action-button add-income-btn" id="add-income-btn">
-                    + Доход
+                <button class="action-button action-button--income" id="add-income-btn">
+                    + 
                 </button>
-                <button class="action-button add-expense-btn" id="add-expense-btn">
-                    - Расход
+                <button class="action-button action-button--expense" id="add-expense-btn">
+                    - 
                 </button>
             </div>
 

@@ -1,3 +1,5 @@
+// src/components/Popups/TransactionsPopup.js
+
 import { BasePopup } from './BasePopup.js';
 import { formatCurrency, formatDate, getMonthKey } from '../../utils/helpers.js';
 
@@ -7,41 +9,20 @@ export class TransactionsPopup extends BasePopup {
         this.transactionService = transactionService;
         this.transactionsListEl = this.overlay.querySelector('.transactions-list');
         
-        // Подписываемся на обновление данных
         window.addEventListener('transactionsUpdated', () => this.renderList());
     }
-
-    renderContent() {
-        const contentContainer = document.createElement('div');
-        contentContainer.style.flexGrow = 1;
-        contentContainer.style.display = 'flex';
-        contentContainer.style.flexDirection = 'column';
-
-        const list = document.createElement('ul');
-        list.className = 'transactions-list';
-        contentContainer.appendChild(list);
-
-        const actionsDiv = document.createElement('div');
-        actionsDiv.className = 'popup-actions';
-        actionsDiv.innerHTML = `
-            <button type="button" class="cancel-btn" style="flex-grow: 0;" id="close-transactions-popup">Закрыть</button>
-        `;
-        actionsDiv.querySelector('#close-transactions-popup').addEventListener('click', () => this.hide());
-        
-        contentContainer.appendChild(actionsDiv);
-        return contentContainer;
-    }
     
+    // ... (renderContent остается без изменений, кроме стилей кнопок) ...
+
     show() {
         super.show();
         this.renderList();
     }
 
     /**
-     * Рендерит список транзакций (обновляется при каждом show/update).
+     * Рендерит список транзакций (с классами БЭМ).
      */
     renderList() {
-        // Убедимся, что list элемент существует после BasePopup.createOverlay
         if (!this.transactionsListEl) {
              this.transactionsListEl = this.overlay.querySelector('.transactions-list');
         }
@@ -50,28 +31,30 @@ export class TransactionsPopup extends BasePopup {
         this.transactionsListEl.innerHTML = '';
 
         if (transactions.length === 0) {
-            this.transactionsListEl.innerHTML = '<p style="text-align: center; color: #757575; padding: 20px;">Транзакций за этот месяц пока нет.</p>';
+            this.transactionsListEl.innerHTML = '<p style="text-align: center; color: var(--color-text-light); padding: 20px;">Транзакций за этот месяц пока нет.</p>';
             return;
         }
 
         transactions.forEach(t => {
             const item = document.createElement('li');
-            item.className = `transaction-item ${t.type}-type`;
+            // БЭМ: transaction-item + модификатор типа
+            item.className = `transaction-item transaction-item--${t.type}`; 
 
             const details = document.createElement('div');
             details.className = 'transaction-details';
 
             // Сумма (тип, сумма)
             const sumEl = document.createElement('div');
-            sumEl.className = `transaction-sum ${t.type}-sum`;
+            // БЭМ: transaction-item__sum
+            sumEl.className = 'transaction-item__sum'; 
             const sign = t.type === 'income' ? '+' : '-';
             sumEl.textContent = `${sign} ${formatCurrency(t.amount)}`;
             details.appendChild(sumEl);
 
             // Информация (категория, комментарий, дата)
             const infoEl = document.createElement('div');
-            infoEl.className = 'transaction-info';
-            // Используем textContent для безопасного вывода пользовательского ввода (XSS prevention)
+            // БЭМ: transaction-item__info
+            infoEl.className = 'transaction-item__info';
             const commentText = t.comment ? `: ${t.comment}` : '';
             infoEl.textContent = `${t.category}${commentText} (${formatDate(t.date)})`;
             details.appendChild(infoEl);

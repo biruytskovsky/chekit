@@ -1,6 +1,8 @@
+// src/components/Chart.js
+
 /**
  * Компонент для рендеринга столбчатой диаграммы расходов.
- * Использует чистый HTML/CSS для визуализации.
+ * Использует чистый HTML/CSS для визуализации (БЭМ: chart__...).
  */
 export class Chart {
     /**
@@ -18,33 +20,32 @@ export class Chart {
         this.container.innerHTML = ''; // Очистка перед рендерингом
 
         if (distribution.length === 0) {
-            this.container.innerHTML = '<p style="text-align: center; color: #757575;">Нет данных о расходах за этот месяц.</p>';
+            this.container.innerHTML = '<p style="text-align: center; color: var(--color-text-light);">Нет данных о расходах за этот месяц.</p>';
             return;
         }
 
         distribution.forEach(item => {
             const wrapper = document.createElement('div');
-            wrapper.className = 'chart-bar-wrapper';
+            wrapper.className = 'chart__bar-wrapper'; // БЭМ
 
             // 1. Название категории
             const label = document.createElement('span');
-            label.className = 'chart-bar-label';
+            label.className = 'chart__bar-label'; // БЭМ
             label.textContent = item.category;
 
             // 2. Визуальная полоса
             const visual = document.createElement('div');
-            visual.className = 'chart-bar-visual';
+            visual.className = 'chart__bar-visual'; // БЭМ
             
             const fill = document.createElement('div');
-            fill.className = 'chart-bar-fill';
-            // Ограничиваем максимальную ширину для визуального баланса, но используем рассчитанный процент
+            fill.className = 'chart__bar-fill'; // БЭМ
             fill.style.width = `${item.percent > 100 ? 100 : item.percent}%`; 
 
             visual.appendChild(fill);
 
             // 3. Процент
             const percent = document.createElement('span');
-            percent.className = 'chart-bar-percent';
+            percent.className = 'chart__bar-percent'; // БЭМ
             percent.textContent = `${item.percent}%`;
 
             wrapper.appendChild(label);

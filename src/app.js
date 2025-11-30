@@ -1,3 +1,5 @@
+// src/app.js
+
 import { TransactionService } from './services/TransactionService.js';
 import { MainScreen } from './components/MainScreen.js';
 import { AddIncomePopup } from './components/Popups/AddIncomePopup.js';
@@ -22,6 +24,7 @@ const mainScreen = new MainScreen(transactionService);
  * Установка обработчиков событий для кнопок на Главном Экране.
  */
 function setupEventListeners() {
+    // Используем ID, как в исходном HTML
     document.getElementById('add-income-btn').addEventListener('click', () => {
         incomePopup.show();
     });
@@ -38,6 +41,5 @@ function setupEventListeners() {
 // Запуск приложения
 document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
-    // Первый рендеринг MainScreen произойдет в его конструкторе
     console.log('Приложение учета финансов запущено.');
 });
