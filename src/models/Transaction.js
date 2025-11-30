@@ -1,22 +1,22 @@
+// src/models/Transaction.js
+
 /**
- * Класс, представляющий финансовую транзакцию (доход или расход).
- * Соответствует требованию ООП-стиля.
+ * Модель данных для финансовой транзакции.
  */
 export class Transaction {
     /**
-     * @param {'income'|'expense'} type - Тип транзакции.
-     * @param {string} category - Категория транзакции.
      * @param {number} amount - Сумма транзакции.
-     * @param {string} comment - Комментарий.
-     * @param {string} [date=new Date().toISOString()] - Дата и время в ISO-формате.
+     * @param {'income'|'expense'} type - Тип: 'income' или 'expense'.
+     * @param {string} category - Категория.
+     * @param {string} [comment=''] - Комментарий.
+     * @param {Date} [date=new Date()] - Дата транзакции.
      */
-    constructor(type, category, amount, comment, date = new Date().toISOString()) {
-        // Уникальный ID на основе timestamp для обеспечения уникальности и порядка
-        this.id = Date.now().toString() + Math.floor(Math.random() * 1000); 
+    constructor(amount, type, category, comment = '', date = new Date()) {
+        this.id = Date.now().toString() + Math.random().toString(16).slice(2);
+        this.amount = amount;
         this.type = type;
         this.category = category;
-        this.amount = parseFloat(amount);
         this.comment = comment;
-        this.date = date; 
+        this.date = date.toISOString(); // Храним в ISO формате для легкой сортировки и восстановления
     }
 }

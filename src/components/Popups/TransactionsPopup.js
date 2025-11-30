@@ -7,15 +7,27 @@ export class TransactionsPopup extends BasePopup {
     constructor(container, transactionService) {
         super('transactions-popup', 'Детали Транзакций за Месяц', container);
         this.transactionService = transactionService;
-        this.transactionsListEl = this.overlay.querySelector('.transactions-list');
+        this.transactionsListEl = null; 
         
+        // Подписка на событие обновления
         window.addEventListener('transactionsUpdated', () => this.renderList());
     }
     
-    // ... (renderContent остается без изменений, кроме стилей кнопок) ...
+    // ... (Метод renderContent) ...
+    renderContent() {
+        // Убрал лишние кнопки, оставив только список и закрытие
+        return `
+            <ul class="transactions-list" id="transactions-popup-list">
+                </ul>
+        `;
+    }
 
     show() {
         super.show();
+        // Находим список, если еще не найден
+        if (!this.transactionsListEl) {
+             this.transactionsListEl = this.overlay.querySelector('.transactions-list');
+        }
         this.renderList();
     }
 
@@ -23,10 +35,8 @@ export class TransactionsPopup extends BasePopup {
      * Рендерит список транзакций (с классами БЭМ).
      */
     renderList() {
-        if (!this.transactionsListEl) {
-             this.transactionsListEl = this.overlay.querySelector('.transactions-list');
-        }
-
+        if (!this.transactionsListEl) return;
+        
         const transactions = this.transactionService.getTransactions();
         this.transactionsListEl.innerHTML = '';
 
@@ -38,7 +48,8 @@ export class TransactionsPopup extends BasePopup {
         transactions.forEach(t => {
             const item = document.createElement('li');
             // БЭМ: transaction-item + модификатор типа
-            item.className = `transaction-item transaction-item--${t.type}`; 
+            const typeModifier = t.type === 'income' ? 'income' : 'expense';
+            item.className = `transaction-item transaction-item--${typeModifier}`; 
 
             const details = document.createElement('div');
             details.className = 'transaction-details';
@@ -46,7 +57,8 @@ export class TransactionsPopup extends BasePopup {
             // Сумма (тип, сумма)
             const sumEl = document.createElement('div');
             // БЭМ: transaction-item__sum
-            sumEl.className = 'transaction-item__sum'; 
+            const sumModifier = t.type === 'income' ? 'income' : 'expense';
+            sumEl.className = `transaction-item__sum transaction-item--${sumModifier}`; 
             const sign = t.type === 'income' ? '+' : '-';
             sumEl.textContent = `${sign} ${formatCurrency(t.amount)}`;
             details.appendChild(sumEl);

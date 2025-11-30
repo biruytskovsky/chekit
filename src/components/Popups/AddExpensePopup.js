@@ -1,63 +1,58 @@
+// src/components/Popups/AddExpensePopup.js
+
 import { BasePopup } from './BasePopup.js';
-import { EXPENSE_CATEGORIES } from '../../utils/constants.js';
 import { Transaction } from '../../models/Transaction.js';
+import { EXPENSE_CATEGORIES } from '../../utils/constants.js';
 
 export class AddExpensePopup extends BasePopup {
+    /**
+     * @param {HTMLElement} container
+     * @param {import('../../services/TransactionService.js').TransactionService} transactionService
+     */
     constructor(container, transactionService) {
-        super('expense-popup', 'Добавить Расход', container);
+        super('add-expense-popup', 'Добавить Расход', container);
         this.transactionService = transactionService;
-        this.form = this.overlay.querySelector('form');
-        this.setupFormSubmission();
+        this.setupSaveHandler();
     }
 
     renderContent() {
-        const form = document.createElement('form');
-        form.className = 'popup-form';
-        form.innerHTML = `
-            <label for="expense-amount">Сумма (обязательно):</label>
-            <input type="number" id="expense-amount" step="0.01" required>
+        // Создаем опции для выпадающего списка
+        const categoryOptions = EXPENSE_CATEGORIES.map(cat => 
+            `<option value="${cat}">${cat}</option>`
+        ).join('');
 
-            <label for="expense-category">Категория (обязательно):</label>
-            <select id="expense-category" required>
-                <option value="" disabled selected>Выберите категорию</option>
-                ${EXPENSE_CATEGORIES.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
-            </select>
+        return `
+            <form class="popup-form" id="expense-form">
+                <label for="expense-amount">Сумма:</label>
+                <input type="number" id="expense-amount" required min="1" step="0.01">
 
-            <label for="expense-comment">Комментарий (необязательно):</label>
-            <textarea id="expense-comment" rows="2"></textarea>
-            
-            <div class="popup-actions">
-                <button type="button" class="cancel-btn" id="expense-cancel">Отмена</button>
-                <button type="submit" class="save-btn">Сохранить</button>
-            </div>
+                <label for="expense-category">Категория:</label>
+                <select id="expense-category" required>
+                    ${categoryOptions}
+                </select>
+
+                <label for="expense-comment">Комментарий (необязательно):</label>
+                <textarea id="expense-comment" rows="2"></textarea>
+            </form>
         `;
-        return form;
     }
 
-    setupFormSubmission() {
-        this.form.querySelector('#expense-cancel').addEventListener('click', () => this.hide());
-        
-        this.form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const amount = this.form.querySelector('#expense-amount').value;
-            const category = this.form.querySelector('#expense-category').value;
-            const comment = this.form.querySelector('#expense-comment').value;
-
-            if (!amount || !category) {
-                alert('Пожалуйста, введите сумму и выберите категорию.');
+    setupSaveHandler() {
+        const saveBtn = this.overlay.querySelector(`#${this.id}-save-btn`);
+        saveBtn.addEventListener('click', () => {
+            const form = this.overlay.querySelector('form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
                 return;
             }
+            
+            const amount = parseFloat(document.getElementById('expense-amount').value);
+            const category = document.getElementById('expense-category').value;
+            const comment = document.getElementById('expense-comment').value;
 
-            const newTransaction = new Transaction(
-                'expense',
-                category,
-                amount,
-                comment
-            );
-
+            const newTransaction = new Transaction(amount, 'expense', category, comment);
             this.transactionService.addTransaction(newTransaction);
-            this.form.reset();
+            
             this.hide();
         });
     }

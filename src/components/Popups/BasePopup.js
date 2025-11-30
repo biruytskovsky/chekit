@@ -1,60 +1,69 @@
+// src/components/Popups/BasePopup.js
+
+/**
+ * Базовый класс для всех модальных окон (Popups).
+ */
 export class BasePopup {
     /**
-     * @param {string} id - Уникальный ID для элемента.
+     * @param {string} id - Уникальный ID для оверлея.
      * @param {string} title - Заголовок модального окна.
-     * @param {HTMLElement} container - Контейнер для вставки (например, #popups-container).
+     * @param {HTMLElement} container - Контейнер, куда будет вставлен оверлей.
      */
     constructor(id, title, container) {
         this.id = id;
         this.title = title;
         this.container = container;
-        this.overlay = this.createOverlay();
+        this.overlay = null;
+
+        this.renderOverlay();
+        
+        // Назначаем обработчик на кнопку отмены/закрытия
+        this.overlay.querySelector('.cancel-btn').addEventListener('click', () => this.hide());
     }
 
-    createOverlay() {
-        const overlay = document.createElement('div');
-        overlay.className = 'popup-overlay';
-        overlay.id = this.id;
-        overlay.style.display = 'none';
+    renderOverlay() {
+        this.overlay = document.createElement('div');
+        this.overlay.className = `popup-overlay ${this.id}`;
+        this.overlay.innerHTML = `
+            <div class="popup-content">
+                <h2>${this.title}</h2>
+                <div class="popup-form-area">
+                    ${this.renderContent()}
+                </div>
+                <div class="popup-actions">
+                    <button class="save-btn" id="${this.id}-save-btn">Сохранить</button>
+                    <button class="cancel-btn">Отмена</button>
+                </div>
+            </div>
+        `;
+        this.container.appendChild(this.overlay);
 
-        const content = document.createElement('div');
-        content.className = 'popup-content';
-        
-        const h2 = document.createElement('h2');
-        h2.textContent = this.title;
-        content.appendChild(h2);
-
-        // Вставка специфичного контента, который будет реализован в дочерних классах
-        content.appendChild(this.renderContent());
-        
-        overlay.appendChild(content);
-        this.container.appendChild(overlay);
-
-        // Закрытие при клике по оверлею
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
+        // Чтобы контент не был кликабельным при клике на оверлей, используем делегирование
+        this.overlay.addEventListener('click', (e) => {
+            if (e.target.classList.contains('popup-overlay')) {
                 this.hide();
             }
         });
-
-        return overlay;
     }
 
     /**
-     * Метод, который должны реализовать дочерние классы для вставки формы/списка.
+     * Метод должен быть переопределен дочерними классами.
+     * Возвращает HTML-контент, специфичный для данного Pop-up (формы, списки).
      */
     renderContent() {
-        throw new Error("Метод renderContent должен быть реализован.");
+        return '<p>Базовый контент Pop-up</p>';
     }
 
     show() {
-        this.overlay.style.display = 'flex';
-        // Дополнительный класс для анимации
-        setTimeout(() => this.overlay.classList.add('visible'), 10);
+        this.overlay.classList.add('visible');
     }
 
     hide() {
-        this.overlay.style.display = 'none';
         this.overlay.classList.remove('visible');
+        // Очистка формы при закрытии
+        const form = this.overlay.querySelector('form');
+        if (form) {
+            form.reset();
+        }
     }
 }

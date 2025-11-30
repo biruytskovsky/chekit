@@ -46,7 +46,7 @@ export class Chart {
             // 3. Процент
             const percent = document.createElement('span');
             percent.className = 'chart__bar-percent'; // БЭМ
-            percent.textContent = `${item.percent}%`;
+            percent.textContent = `${Math.round(item.percent)}%`;
 
             wrapper.appendChild(label);
             wrapper.appendChild(visual);

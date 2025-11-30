@@ -1,51 +1,79 @@
-import { formatCurrency } from '../utils/helpers.js';
-import { Chart } from './Chart.js';
+// src/components/MainScreen.js
 
-/**
- * Компонент, управляющий отображением главного экрана и сводки.
- */
+import { Chart } from './Chart.js';
+import { formatCurrency, getMonthKey } from '../utils/helpers.js';
+import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '../utils/constants.js';
+
 export class MainScreen {
     /**
-     * @param {TransactionService} transactionService
+     * @param {import('../services/TransactionService.js').TransactionService} transactionService
      */
     constructor(transactionService) {
-        this.service = transactionService;
-
-        // Элементы DOM
-        this.monthTitleEl = document.getElementById('month-title');
-        this.totalIncomeEl = document.getElementById('total-income');
-        this.totalExpenseEl = document.getElementById('total-expense');
-        this.totalBalanceEl = document.getElementById('total-balance');
-        this.chartContainerEl = document.getElementById('expense-chart');
+        this.transactionService = transactionService;
+        this.chart = new Chart(document.getElementById('expense-chart'));
         
-        this.chart = new Chart(this.chartContainerEl);
+        // Текущий месяц для отображения
+        this.currentMonthKey = getMonthKey(new Date());
 
-        // Подписка на глобальное событие обновления данных (требование 9)
-        window.addEventListener('transactionsUpdated', this.render.bind(this));
+        // Подписка на событие обновления
+        window.addEventListener('transactionsUpdated', () => this.updateView());
+
+        // Первичное обновление
+        this.updateView();
+    }
+
+    updateView() {
+        const summary = this.transactionService.getMonthlySummary(this.currentMonthKey);
         
-        this.render(); // Первичный рендеринг
+        // 1. Обновление заголовка месяца
+        this.updateMonthTitle();
+
+        // 2. Обновление сводки
+        this.updateSummary(summary);
+
+        // 3. Обновление графика
+        this.updateChart(summary);
+    }
+
+    updateMonthTitle() {
+        const date = new Date();
+        const monthName = date.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' });
+        document.getElementById('month-title').textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1);
     }
 
     /**
-     * Обновляет все элементы главного экрана.
+     * @param {{totalIncome: number, totalExpense: number, expenseDistribution: {category: string, amount: number}[]}} summary
      */
-    render() {
-        this.monthTitleEl.textContent = this.service.getCurrentMonthName();
-        
-        const summary = this.service.calculateSummary();
+    updateSummary(summary) {
+        const balance = summary.totalIncome - summary.totalExpense;
 
-        // 3. Сумма всех приходов
-        this.totalIncomeEl.textContent = formatCurrency(summary.totalIncome);
+        document.getElementById('total-income').textContent = formatCurrency(summary.totalIncome);
+        document.getElementById('total-expense').textContent = formatCurrency(summary.totalExpense);
+        document.getElementById('total-balance').textContent = formatCurrency(balance);
         
-        // 4. Сумма всех расходов
-        this.totalExpenseEl.textContent = formatCurrency(summary.totalExpense);
+        // Установка цвета баланса
+        const balanceEl = document.getElementById('total-balance');
+        balanceEl.classList.remove('text-success', 'text-danger');
+        if (balance > 0) {
+            balanceEl.classList.add('text-success'); // Используйте класс из CSS, если нужно
+        } else if (balance < 0) {
+            balanceEl.classList.add('text-danger');
+        }
+    }
+
+    /**
+     * @param {{totalIncome: number, totalExpense: number, expenseDistribution: {category: string, amount: number}[]}} summary
+     */
+    updateChart(summary) {
+        const totalExpense = summary.totalExpense;
         
-        // 5. Итоговый баланс
-        this.totalBalanceEl.textContent = formatCurrency(summary.totalBalance);
-        this.totalBalanceEl.style.color = summary.totalBalance >= 0 ? 
-            'var(--color-success)' : 'var(--color-danger)';
-        
-        // 2. График
-        this.chart.render(summary.categoryDistribution);
+        const distributionWithPercent = summary.expenseDistribution
+            .map(item => ({
+                ...item,
+                percent: totalExpense > 0 ? (item.amount / totalExpense) * 100 : 0
+            }))
+            .sort((a, b) => b.amount - a.amount); // Сортировка по убыванию суммы
+
+        this.chart.render(distributionWithPercent);
     }
 }
