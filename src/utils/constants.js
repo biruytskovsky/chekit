@@ -1,5 +1,3 @@
-// src/utils/constants.js
-
 export const INCOME_CATEGORIES = [
     'Зарплата',
     'Премия',

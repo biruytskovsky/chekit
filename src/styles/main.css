@@ -1,21 +1,16 @@
-/* src/styles/main.css (Полностью исправленная версия с БЭМ) */
-
-/* --- 1. Переменные и Общие стили --- */
 :root {
-    /* Палитра */
-    --color-primary: #5A67D8; /* Насыщенный фиолетово-синий */
+    --color-primary: #5A67D8; 
     --color-primary-light: #7F9CF5;
-    --color-success: #48BB78; /* Мягкий зеленый */
-    --color-danger: #F56565; /* Приглушенный красный */
-    --color-background: #F7FAFC; /* Светло-серый фон */
-    --color-card: #FFFFFF; /* Белый для карточек */
-    --color-text-dark: #2D3748; /* Темный текст */
-    --color-text-light: #718096; /* Светлый/второстепенный текст */
+    --color-success: #48BB78; 
+    --color-danger: #F56565;
+    --color-background: #F7FAFC; 
+    --color-card: #FFFFFF; 
+    --color-text-dark: #2D3748; 
+    --color-text-light: #718096; 
     
-    /* Типографика и геометрия */
     --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --spacing: 1rem; /* 16px */
-    --border-radius: 0.75rem; /* 12px */
+    --spacing: 1rem;
+    --border-radius: 0.75rem;
     --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
@@ -35,8 +30,6 @@ body {
     margin: 0 auto;
 }
 
-/* --- 2. Главный Экран --- */
-
 .month-title {
     font-size: 1.8rem;
     font-weight: 700;
@@ -45,7 +38,6 @@ body {
     color: var(--color-text-dark);
 }
 
-/* БЛОК: summary (Сводка) */
 .summary {
     display: flex;
     flex-direction: column;
@@ -53,7 +45,6 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* ЭЛЕМЕНТ: summary__item (Карточка сводки) */
 .summary__item {
     background-color: var(--color-card);
     padding: 1.25rem;
@@ -65,13 +56,10 @@ body {
     border-left: 5px solid transparent; 
 }
 
-/* МОДИФИКАТОРЫ ЭЛЕМЕНТА summary__item */
 .summary__item--income { border-left-color: var(--color-success); }
 .summary__item--expense { border-left-color: var(--color-danger); }
 .summary__item--balance { border-left-color: var(--color-primary); }
 
-
-/* ЭЛЕМЕНТ: summary__label (Подпись) */
 .summary__label {
     font-size: 0.9rem;
     color: var(--color-text-light);
@@ -79,19 +67,14 @@ body {
     letter-spacing: 0.05em;
 }
 
-/* ЭЛЕМЕНТ: summary__value (Значение) */
 .summary__value {
     font-size: 1.6rem;
     font-weight: 700;
 }
 
-/* Стили значений */
 .summary__item--income .summary__value { color: var(--color-success); }
 .summary__item--expense .summary__value { color: var(--color-danger); }
 .summary__item--balance .summary__value { color: var(--color-text-dark); } 
-
-
-/* --- 3. Кнопки действий (БЭМ action-button) --- */
 
 .action-buttons {
     display: flex;
@@ -99,7 +82,6 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* БЛОК: action-button */
 .action-button {
     flex-grow: 1;
     padding: 1.5rem 1rem;
@@ -117,7 +99,6 @@ body {
     transform: translateY(-1px);
 }
 
-/* МОДИФИКАТОРЫ action-button */
 .action-button--income {
     background-color: var(--color-success);
     color: var(--color-card);
@@ -145,8 +126,6 @@ body {
     background-color: rgba(90, 103, 216, 0.05);
 }
 
-/* --- 4. График (БЭМ chart) --- */
-
 .chart-container {
     background-color: var(--color-card);
     padding: var(--spacing);
@@ -163,14 +142,12 @@ body {
     padding-bottom: 10px;
 }
 
-/* БЛОК: chart */
 .chart-area {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-/* ЭЛЕМЕНТЫ chart__... */
 .chart__bar-wrapper {
     display: flex;
     align-items: center;
@@ -208,8 +185,6 @@ body {
     color: var(--color-text-dark);
 }
 
-/* --- 5. Модальные окна (Popups) --- */
-
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -223,14 +198,11 @@ body {
     z-index: 1000;
     opacity: 0;
     transition: opacity 0.3s;
-    
-    /* 🔥 КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Игнорировать клики, пока окно невидимо */
     pointer-events: none; 
 }
 
 .popup-overlay.visible {
     opacity: 1;
-    /* Разрешаем кликать по содержимому Pop-up, когда он видим */
     pointer-events: auto; 
 }
 
@@ -316,8 +288,6 @@ body {
     color: var(--color-text-dark);
 }
 
-/* --- 6. Экран Транзакций (БЭМ transaction-item) --- */
-
 .transactions-list {
     list-style: none;
     padding: 0;
@@ -326,7 +296,6 @@ body {
     flex-grow: 1;
 }
 
-/* БЛОК: transaction-item */
 .transaction-item {
     background-color: var(--color-card);
     padding: 1rem;
@@ -339,7 +308,6 @@ body {
     border-left: 5px solid;
 }
 
-/* МОДИФИКАТОРЫ БЛОКА transaction-item */
 .transaction-item--income { border-left-color: var(--color-success); }
 .transaction-item--expense { border-left-color: var(--color-danger); }
 
@@ -348,18 +316,15 @@ body {
     overflow: hidden;
 }
 
-/* ЭЛЕМЕНТ: transaction-item__sum */
 .transaction-item__sum {
     font-weight: 700;
     font-size: 1.2rem;
     margin-bottom: 4px;
 }
 
-/* Стили суммы */
 .transaction-item--income .transaction-item__sum { color: var(--color-success); }
 .transaction-item--expense .transaction-item__sum { color: var(--color-danger); }
 
-/* ЭЛЕМЕНТ: transaction-item__info */
 .transaction-item__info {
     font-size: 0.85rem;
     color: var(--color-text-light);
@@ -383,7 +348,6 @@ body {
     color: var(--color-danger);
 }
 
-/* --- 7. Адаптация для десктопов --- */
 @media (min-width: 600px) {
     .popup-overlay {
         align-items: center; 

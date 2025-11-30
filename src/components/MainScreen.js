@@ -1,5 +1,3 @@
-// src/components/MainScreen.js
-
 import { Chart } from './Chart.js';
 import { formatCurrency, getMonthKey } from '../utils/helpers.js';
 import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '../utils/constants.js';
@@ -12,26 +10,20 @@ export class MainScreen {
         this.transactionService = transactionService;
         this.chart = new Chart(document.getElementById('expense-chart'));
         
-        // Текущий месяц для отображения
         this.currentMonthKey = getMonthKey(new Date());
 
-        // Подписка на событие обновления
         window.addEventListener('transactionsUpdated', () => this.updateView());
 
-        // Первичное обновление
         this.updateView();
     }
 
     updateView() {
         const summary = this.transactionService.getMonthlySummary(this.currentMonthKey);
         
-        // 1. Обновление заголовка месяца
         this.updateMonthTitle();
 
-        // 2. Обновление сводки
         this.updateSummary(summary);
 
-        // 3. Обновление графика
         this.updateChart(summary);
     }
 
@@ -55,7 +47,7 @@ export class MainScreen {
         const balanceEl = document.getElementById('total-balance');
         balanceEl.classList.remove('text-success', 'text-danger');
         if (balance > 0) {
-            balanceEl.classList.add('text-success'); // Используйте класс из CSS, если нужно
+            balanceEl.classList.add('text-success'); 
         } else if (balance < 0) {
             balanceEl.classList.add('text-danger');
         }

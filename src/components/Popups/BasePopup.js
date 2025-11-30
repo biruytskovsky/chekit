@@ -1,13 +1,11 @@
-// src/components/Popups/BasePopup.js
-
 /**
- * Базовый класс для всех модальных окон (Popups).
+ * Базовый класс для всех модальных окон
  */
 export class BasePopup {
     /**
-     * @param {string} id - Уникальный ID для оверлея.
-     * @param {string} title - Заголовок модального окна.
-     * @param {HTMLElement} container - Контейнер, куда будет вставлен оверлей.
+     * @param {string} id 
+     * @param {string} title 
+     * @param {HTMLElement} container 
      */
     constructor(id, title, container) {
         this.id = id;
@@ -17,7 +15,7 @@ export class BasePopup {
 
         this.renderOverlay();
         
-        // Назначаем обработчик на кнопку отмены/закрытия
+        
         this.overlay.querySelector('.cancel-btn').addEventListener('click', () => this.hide());
     }
 
@@ -38,7 +36,6 @@ export class BasePopup {
         `;
         this.container.appendChild(this.overlay);
 
-        // Чтобы контент не был кликабельным при клике на оверлей, используем делегирование
         this.overlay.addEventListener('click', (e) => {
             if (e.target.classList.contains('popup-overlay')) {
                 this.hide();
@@ -46,10 +43,6 @@ export class BasePopup {
         });
     }
 
-    /**
-     * Метод должен быть переопределен дочерними классами.
-     * Возвращает HTML-контент, специфичный для данного Pop-up (формы, списки).
-     */
     renderContent() {
         return '<p>Базовый контент Pop-up</p>';
     }
@@ -60,7 +53,6 @@ export class BasePopup {
 
     hide() {
         this.overlay.classList.remove('visible');
-        // Очистка формы при закрытии
         const form = this.overlay.querySelector('form');
         if (form) {
             form.reset();

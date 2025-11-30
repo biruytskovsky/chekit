@@ -1,4 +1,3 @@
-
 export class Chart {
     /**
      * @param {HTMLElement} containerElement - Элемент куда будет вставлен график

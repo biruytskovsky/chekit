@@ -1,8 +1,3 @@
-// src/models/Transaction.js
-
-/**
- * Модель данных для финансовой транзакции.
- */
 export class Transaction {
     /**
      * @param {number} amount - Сумма транзакции.

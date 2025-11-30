@@ -1,4 +1,3 @@
-
 1. 
     git clone [<репозиторий>](https://up.bitrix.info/2025/biryukov/finally)
  

@@ -1,11 +1,5 @@
-// src/services/TransactionService.js
-
 import { getMonthKey } from '../utils/helpers.js';
 
-/**
- * Хранит и управляет всеми транзакциями, используя localStorage.
- * Структура: { '2025-11': [Transaction1, Transaction2, ...], '2025-10': [...] }
- */
 export class TransactionService {
     constructor() {
         this.storageKey = 'financeTransactions';
@@ -25,7 +19,6 @@ export class TransactionService {
     saveData() {
         try {
             localStorage.setItem(this.storageKey, JSON.stringify(this.data));
-            // Генерируем событие для обновления UI
             window.dispatchEvent(new Event('transactionsUpdated'));
         } catch (e) {
             console.error("Ошибка сохранения данных в localStorage:", e);
@@ -84,7 +77,6 @@ export class TransactionService {
             } else if (t.type === 'expense') {
                 totalExpense += t.amount;
                 
-                // Расчет распределения расходов по категориям
                 const category = t.category || 'Без категории';
                 expenseMap[category] = (expenseMap[category] || 0) + t.amount;
             }
