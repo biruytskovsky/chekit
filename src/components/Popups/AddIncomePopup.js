@@ -1,5 +1,3 @@
-// src/components/Popups/AddIncomePopup.js
-
 import { BasePopup } from './BasePopup.js';
 import { Transaction } from '../../models/Transaction.js';
 import { INCOME_CATEGORIES } from '../../utils/constants.js';
@@ -16,7 +14,6 @@ export class AddIncomePopup extends BasePopup {
     }
 
     renderContent() {
-        // Создаем опции для выпадающего списка
         const categoryOptions = INCOME_CATEGORIES.map(cat => 
             `<option value="${cat}">${cat}</option>`
         ).join('');
@@ -42,7 +39,6 @@ export class AddIncomePopup extends BasePopup {
         saveBtn.addEventListener('click', () => {
             const form = this.overlay.querySelector('form');
             if (!form.checkValidity()) {
-                // Триггерим стандартную валидацию HTML5
                 form.reportValidity();
                 return;
             }

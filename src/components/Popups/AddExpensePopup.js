@@ -1,5 +1,3 @@
-// src/components/Popups/AddExpensePopup.js
-
 import { BasePopup } from './BasePopup.js';
 import { Transaction } from '../../models/Transaction.js';
 import { EXPENSE_CATEGORIES } from '../../utils/constants.js';
@@ -16,7 +14,7 @@ export class AddExpensePopup extends BasePopup {
     }
 
     renderContent() {
-        // Создаем опции для выпадающего списка
+        
         const categoryOptions = EXPENSE_CATEGORIES.map(cat => 
             `<option value="${cat}">${cat}</option>`
         ).join('');

@@ -1,12 +1,7 @@
-// src/components/Chart.js
 
-/**
- * Компонент для рендеринга столбчатой диаграммы расходов.
- * Использует чистый HTML/CSS для визуализации (БЭМ: chart__...).
- */
 export class Chart {
     /**
-     * @param {HTMLElement} containerElement - Элемент, куда будет вставлен график.
+     * @param {HTMLElement} containerElement - Элемент куда будет вставлен график
      */
     constructor(containerElement) {
         this.container = containerElement;
@@ -17,7 +12,7 @@ export class Chart {
      * @param {{category: string, amount: number, percent: number}[]} distribution
      */
     render(distribution) {
-        this.container.innerHTML = ''; // Очистка перед рендерингом
+        this.container.innerHTML = ''; 
 
         if (distribution.length === 0) {
             this.container.innerHTML = '<p style="text-align: center; color: var(--color-text-light);">Нет данных о расходах за этот месяц.</p>';
@@ -26,26 +21,26 @@ export class Chart {
 
         distribution.forEach(item => {
             const wrapper = document.createElement('div');
-            wrapper.className = 'chart__bar-wrapper'; // БЭМ
+            wrapper.className = 'chart__bar-wrapper'; 
 
-            // 1. Название категории
+            
             const label = document.createElement('span');
-            label.className = 'chart__bar-label'; // БЭМ
+            label.className = 'chart__bar-label'; 
             label.textContent = item.category;
 
-            // 2. Визуальная полоса
+            
             const visual = document.createElement('div');
-            visual.className = 'chart__bar-visual'; // БЭМ
+            visual.className = 'chart__bar-visual'; 
             
             const fill = document.createElement('div');
-            fill.className = 'chart__bar-fill'; // БЭМ
+            fill.className = 'chart__bar-fill'; /
             fill.style.width = `${item.percent > 100 ? 100 : item.percent}%`; 
 
             visual.appendChild(fill);
 
-            // 3. Процент
+            
             const percent = document.createElement('span');
-            percent.className = 'chart__bar-percent'; // БЭМ
+            percent.className = 'chart__bar-percent'; 
             percent.textContent = `${Math.round(item.percent)}%`;
 
             wrapper.appendChild(label);
